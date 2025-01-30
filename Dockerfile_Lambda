@@ -1,0 +1,15 @@
+# For x86_64 (Intel/AMD) architecture
+FROM --platform=linux/amd64 public.ecr.aws/lambda/python:3.10
+
+# For arm64 (AWS Graviton2)
+# FROM --platform=linux/arm64 public.ecr.aws/lambda/python:3.10
+
+# Install dependencies
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application files
+COPY . /var/task
+
+# Set Lambda function handler
+CMD ["lambda_function.lambda_handler"]
