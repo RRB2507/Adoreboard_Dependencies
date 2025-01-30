@@ -1,0 +1,13 @@
+# Base SageMaker Python image (Intel/AMD)
+FROM --platform=linux/amd64 amazon/sagemaker-python-sdk:latest
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy model & inference script
+COPY model.pkl /opt/ml/model/
+COPY inference.py /opt/ml/code/inference.py
+
+# Define entry point for SageMaker inference
+ENTRYPOINT ["python", "/opt/ml/code/inference.py"]
