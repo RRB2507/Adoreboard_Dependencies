@@ -1,0 +1,20 @@
+# For x86_64 (Intel/AMD) EC2 instances
+FROM --platform=linux/amd64 python:3.10-slim
+
+# For arm64 (AWS Graviton EC2 instances)
+# FROM --platform=linux/arm64 python:3.10-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application and model
+COPY model.pkl /app/model.pkl
+COPY app.py /app/app.py
+
+# Expose port if running as an API
+EXPOSE 8080
+
+CMD ["python", "app.py"]
